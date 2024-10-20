@@ -5,7 +5,7 @@ FROM openjdk:17-jdk-alpine
 EXPOSE 8089
 
 # Ajouter votre fichier JAR généré dans le conteneur
-ADD target/gestion-station-ski-1.0.0.jar.jar gestion-station-ski-1.0.0.jar.jar
+ADD target/gestion-station-ski-1.0.0.jar gestion-station-ski-1.0.0.jar
 
 # Définir le point d'entrée pour exécuter l'application avec Java
 ENTRYPOINT ["java", "-jar", "/gestion-station-ski-1.0.0.jar"]
