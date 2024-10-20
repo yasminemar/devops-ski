@@ -11,19 +11,11 @@ services:
       - "3306:3306"  # Mapper le port MySQL local vers le conteneur
     volumes:
       - db:/var/lib/mysql  # Stockage persistant pour les données MySQL
-<<<<<<< HEAD
-##
-  app-tpfoyer:
-    depends_on:
-      - mysqldb  # L'application dépend du service MySQL
-    image: hamza261/gestion-station-ski:latest  # Utiliser l'image que vous allez builder
-=======
 
   app-tpfoyer:
     depends_on:
       - mysqldb  # L'application dépend du service MySQL
-    image: yasminemarzouk66/gestion-station-ski:latest  # Utiliser l'image que vous allez builder
->>>>>>> 65791dd7faf2b70b52c6b241491fe0c9d4088a09
+    image: hamza261/gestion-station-ski:latest  # Utiliser l'image que vous allez builder
     restart: on-failure
     ports:
       - "8089:8089"  # Mapper le port 8089 de l'application
