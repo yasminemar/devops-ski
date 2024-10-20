@@ -11,7 +11,7 @@ services:
       - "3306:3306"  # Mapper le port MySQL local vers le conteneur
     volumes:
       - db:/var/lib/mysql  # Stockage persistant pour les données MySQL
-#
+##
   app-tpfoyer:
     depends_on:
       - mysqldb  # L'application dépend du service MySQL
