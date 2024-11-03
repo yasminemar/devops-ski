@@ -18,10 +18,12 @@ stage('MVN SONARQUBE') {
         // Analyse SonarQube avec exclusions
         sh "mvn sonar:sonar -Dsonar.projectKey=projet_devops " +
            "-Dsonar.host.url=http://192.168.33.10:9000 " +
-           "-Dsonar.token=sqa_adcb0940c0a0430203af5c1379e4c10e974f9190 " +
-           "-Dsonar.exclusions=**/*.log,**/temp/**"
+           "-Dsonar.token=squ_e7bb1aee25b9b5b0b12e8312ad9029fdde4ce59f " +  // Votre token ici
+           "-Dsonar.exclusions=**/*.log,**/temp/** " +
+           "-Dsonar.verbose=true"  // Pour activer les logs détaillés
     }
 }
+
 
         // Uncomment this stage if you need to deploy
         // stage('Mvn Deploy') {
