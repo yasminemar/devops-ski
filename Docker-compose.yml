@@ -1,31 +1,25 @@
-version: '3.8'
 services:
-  mysqldb:
-    image: mysql:5.7
-    restart: unless-stopped
-    environment:
-      MYSQL_ROOT_PASSWORD: root 
-      MYSQL_DATABASE: stationski 
+  app:
+    image: brahim170/gestion-station-ski:1.0.0
     ports:
-      - "3306:3306"  
-    volumes:
-      - db:/var/lib/mysql  
-  stationski:
+      - "8089:8089"
     depends_on:
-      - mysqldb
-    image: brahim170/gestion-station-ski:latest
-    restart: on-failure
-    ports:
-      - "8082:8082"
+      - db
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3306/db?createDatabaseIfNotExist=true
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: root
-      SPRING_JPA_HIBERNATE_DDL_AUTO: update
-      SPRING_JPA_SHOW_SQL: "true"
-      SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.MySQL5InnoDBDialect
-    stdin_open: true
-    tty: true
+      - DATABASE_HOST=db
+      - DATABASE_USER=root
+      - DATABASE_PASSWORD=password
+      - DATABASE_NAME=stationski
+
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: stationski
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
 
 volumes:
-  db:
+  mysql-data:
