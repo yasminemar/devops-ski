@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('Git') {
             steps {
-                git branch: 'subsription-slimmm', 
+                git branch: 'subsription-slim', 
                 url: 'https://github.com/yasminemar/devops-ski.git'
             }
         }
