@@ -13,16 +13,16 @@ pipeline {
                 sh "mvn clean compile"
             }
         }
-stage('MVN SONARQUBE') {
-    steps {
-        // Analyse SonarQube avec exclusions
-        sh "mvn sonar:sonar -Dsonar.projectKey=projet_devops " +
-           "-Dsonar.host.url=http://192.168.33.10:9000 " +
-           "-Dsonar.token=squ_e7bb1aee25b9b5b0b12e8312ad9029fdde4ce59f " +  // Votre token ici
-           "-Dsonar.exclusions=**/*.log,**/temp/** " +
-           "-Dsonar.verbose=true"  // Pour activer les logs détaillés
-    }
-}
+        stage('MVN SONARQUBE') {
+            steps {
+                sh """
+                mvn sonar:sonar \
+                    -Dsonar.projectKey=projet_station \
+                    -Dsonar.host.url=http://192.168.33.10:9000 \
+                    -Dsonar.login=sqa_deff4d127b4859ee7e96433d61cdd59b41d9c474
+                """
+            }
+        }
 
 
         // Uncomment this stage if you need to deploy
