@@ -54,6 +54,7 @@ public class SkierServicesImplTest {
 
         when(skierRepository.save(skier)).thenReturn(skier);
 
+
         // When
         Skier result = skierServices.addSkier(skier);
 
