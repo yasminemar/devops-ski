@@ -38,8 +38,6 @@ pipeline {
             steps {
                 // Construire l'image Docker
                 sh "docker build -t slimzouari560/gestion-station-ski ."
-              
-
             }
         }
         stage('Verify Image') {
@@ -63,6 +61,31 @@ pipeline {
                 sh 'docker compose down'
                 // Lancer le fichier docker-compose.yml
                 sh 'docker compose up -d'
+            }
+        }
+    }
+
+    // Notification par email en cas d'échec
+    post {
+        failure {
+            script {
+                // Récupérer la sortie de la console
+                def consoleOutput = sh(script: "curl -s -u 'admin:11031fef42e4797bbddac1d396b6e5d306' http://192.168.33.10:8080/job/${env.JOB_NAME}/${env.BUILD_NUMBER}/consoleText", returnStdout: true).trim()    
+                mail to: ['oumayma.sahmim@esprit.tn', 'slim.zouari@esprit.tn'], // Ajouter le nouvel email ici
+                subject: "Échec du Build: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                body: """
+        salut equipe,
+
+        Le build du projet '${env.JOB_NAME}' s'est terminé avec le statut : FAILURE.
+
+        Détails :
+        - Numéro du Build : ${env.BUILD_NUMBER}
+        - Statut du Build : FAILURE
+        - Durée du Build : ${currentBuild.durationString}
+
+        - Sortie de la console :
+                ${consoleOutput}
+     """
             }
         }
     }
