@@ -1,8 +1,8 @@
 version: '3.8'
 services:
   mysqldb:
-    image: mysql:8.0  # Utiliser MySQL 8.0
-    platform: linux/amd64  # Spécifie la plateforme pour s'assurer de la compatibilité CPU
+    image: mysql:5.7  # Revenir à MySQL 5.7
+    platform: linux/amd64  # S'assurer que la plateforme est spécifiée
     restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: root
