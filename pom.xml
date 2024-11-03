@@ -16,6 +16,10 @@
 	<properties>
 		<java.version>1.8</java.version>
 		<maven-jar-plugin.version>3.1.1</maven-jar-plugin.version>
+		<sonar.projectKey>projet_station</sonar.projectKey>
+		<sonar.host.url>http://192.168.33.10:9000</sonar.host.url>
+		<sonar.login>sqa_deff4d127b4859ee7e96433d61cdd59b41d9c474</sonar.login>
+		<sonar.exclusions>target/**,.idea/**</sonar.exclusions>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -77,6 +81,11 @@
 						</exclude>
 					</excludes>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.sonarsource.scanner.maven</groupId>
+				<artifactId>sonar-maven-plugin</artifactId>
+				<version>3.9.0.2155</version> <!-- Choisissez la version appropriée -->
 			</plugin>
 		</plugins>
 	</build>
