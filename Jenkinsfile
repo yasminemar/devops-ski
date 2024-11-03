@@ -70,7 +70,7 @@ pipeline {
         failure {
             script {
                 // Récupérer la sortie de la console
-                def consoleOutput = sh(script: "curl -s -u 'admin:11031fef42e4797bbddac1d396b6e5d306' http://192.168.33.10:8080/job/${env.JOB_NAME}/${env.BUILD_NUMBER}/consoleText", returnStdout: true).trim()    
+                def consoleOutput = sh(script: "curl -s -u 'admin:119c985aeb2bcc3cb8409b0828b6d9c594' http://192.168.33.10:8080/job/${env.JOB_NAME}/${env.BUILD_NUMBER}/consoleText", returnStdout: true).trim()    
                 mail to: ['oumayma.sahmim@esprit.tn', 'slim.zouari@esprit.tn'], // Ajouter le nouvel email ici
                 subject: "Échec du Build: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
                 body: """
