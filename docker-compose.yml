@@ -1,7 +1,7 @@
 version: '3.8'
 services:
   mysqldb:
-    image: mysql:5.7  # Remplacez par MySQL 5.7 pour plus de compatibilité
+    image: mysql:8.0  # Utiliser MySQL 8.0
     platform: linux/amd64  # Spécifie la plateforme pour s'assurer de la compatibilité CPU
     restart: unless-stopped
     environment:
