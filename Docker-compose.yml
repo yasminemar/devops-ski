@@ -10,7 +10,7 @@ services:
       - "3306:3306"  
     volumes:
       - db:/var/lib/mysql  
-  app-tpfoyer:
+  stationski:
     depends_on:
       - mysqldb
     image: brahim170/gestion-station-ski:latest
