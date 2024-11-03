@@ -16,7 +16,10 @@ pipeline {
         stage('MVN SONARQUBE') {
             steps {
                 // Analyse SonarQube
-                sh "mvn sonar:sonar -Dsonar.projectKey=projet_devops -Dsonar.host.url=http://192.168.33.10:9000 -Dsonar.token=sqa_adcb0940c0a0430203af5c1379e4c10e974f9190"
+                sh "mvn sonar:sonar \
+                    -Dsonar.projectKey=projet_devops \
+                    -Dsonar.host.url=http://192.168.33.10:9000 \
+                    -Dsonar.login=sqa_adcb0940c0a0430203af5c1379e4c10e974f9190"
             }
         }
         // Uncomment this stage if you need to deploy
