@@ -9,7 +9,7 @@ pipeline {
         }
         stage('Mvn Clean and Compile') {
             steps {
-                // Nettoyage et compilation du projet avec Maven
+                
                 sh "mvn clean compile"
             }
         }
@@ -31,13 +31,13 @@ pipeline {
         // }
         stage('Mvn Package') {
             steps {
-                // Création du package JAR avec Maven
+              
                 sh "mvn package -DskipTests" // Assurez-vous que le JAR est construit
             }
         }
         stage('Building Images') {
             steps {
-                // Construire l'image Docker
+                
                 sh "docker build -t slimzouari560/gestion-station-ski ."
             }
         }
@@ -58,26 +58,24 @@ pipeline {
         }
         stage('Docker Compose Up') {
             steps {
-                // Arrêter et supprimer les conteneurs existants
+               
                 sh 'docker compose down'
-                // Lancer le fichier docker-compose.yml
                 sh 'docker compose up -d'
             }
         }
     }
 
-    // Notification par email en cas d'échec
+   
     post {
         failure {
             script {
                 // Récupérer la sortie de la console
                 def consoleOutput = sh(script: "curl -s -u 'admin:119c985aeb2bcc3cb8409b0828b6d9c594' http://192.168.33.10:8080/job/${env.JOB_NAME}/${env.BUILD_NUMBER}/consoleText", returnStdout: true).trim()
-                mail to: 'slim.zouari@esprit.tn',
+                mail to: 'slim.zouari@esprit.tn, oumayma.sahmim@esprit.tn',
                      subject: "Échec du Build: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
                      body: """
-                     salut equipe,
-
-                     Le build du projet '${env.JOB_NAME}' s'est terminé avec le statut : FAILURE.
+                     Bonjour,
+                     Le build du votre  projet '${env.JOB_NAME}' s'est terminé avec le statut : FAILURE.
 
                      Détails :
                      - Numéro du Build : ${env.BUILD_NUMBER}
