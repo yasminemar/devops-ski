@@ -13,6 +13,11 @@ pipeline {
                 sh "mvn clean compile"
             }
         }
+                        stage('Unit Test') {
+                            steps {
+                                sh "mvn  test"
+                            }
+                        }
         stage('MVN SONARQUBE') {
             steps {
                 sh """
@@ -24,6 +29,8 @@ pipeline {
                 """
             }
         }
+
+
 
 
         // Uncomment this stage if you need to deploy
