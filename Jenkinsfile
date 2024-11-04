@@ -75,20 +75,28 @@ pipeline {
             sh 'docker compose up -d'
             }
         }
-		stage('Mail') {  // New stage for email notifications
-			steps {
-				script {
-					if (currentBuild.result == null) {
-						currentBuild.result = 'SUCCESS'
-					}
-					emailext (
-						subject: "Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' - ${currentBuild.result}",
-						body: "Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' is ${currentBuild.result}.\n\nCheck details: ${env.BUILD_URL}",
-						to: "${RECIPIENTS}"
-					)
-				}
-			}
-		}
 	}
+	 post {
+        failure {
+            script {
+                // Récupérer la sortie de la console
+                def consoleOutput = sh(script: "curl -s -u 'admin:119c985aeb2bcc3cb8409b0828b6d9c594' http://192.168.33.10:8080/job/${env.JOB_NAME}/${env.BUILD_NUMBER}/consoleText", returnStdout: true).trim()
+                mail to: 'slim.zouari@esprit.tn, oumayma.sahmim@esprit.tn',
+                     subject: "Échec du Build: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                     body: """
+                     Bonjour,
+                     Le build du votre  projet '${env.JOB_NAME}' s'est terminé avec le statut : FAILURE.
+
+                     Détails :
+                     - Numéro du Build : ${env.BUILD_NUMBER}
+                     - Statut du Build : FAILURE
+                     - Durée du Build : ${currentBuild.durationString}
+
+                     - Sortie de la console :
+                     ${consoleOutput}
+                     """
+            }
+        }
+    }
 	
 }
