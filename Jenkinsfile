@@ -1,8 +1,5 @@
 pipeline {
     agent any 
-	environment {
-        RECIPIENTS = 'hedi.thameur@esprit.tn' 
-    }
     stages {
         stage('Git') {
             steps {
@@ -76,7 +73,7 @@ pipeline {
             }
         }
 	}
-	post {
+	/*post {
 		failure {
 			script {
 				// Récupérer la sortie de la console
@@ -90,6 +87,48 @@ pipeline {
 					 Détails :
 					 - Numéro du Build : ${env.BUILD_NUMBER}
 					 - Statut du Build : FAILURE
+					 - Statut du Build : FAILURE
+					 - Durée du Build : ${currentBuild.durationString}
+
+					 - Sortie de la console :
+					 ${consoleOutput}
+					 """
+			}
+		}
+	}*/
+	post {
+		success {
+			script {
+				// Récupérer la sortie de la console
+				def consoleOutput = sh(script: "curl -s -u 'admin:1139c5e85deeff7628c663560686c8caa1' http://192.168.162.222:8080/job/${env.JOB_NAME}/${env.BUILD_NUMBER}/consoleText", returnStdout: true).trim()
+				mail to: 'hedi.thameur@esprit.tn',
+					 subject: "Succès du Build: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+					 body: """
+					 Salut,
+					 Le build du projet '${env.JOB_NAME}' s'est terminé avec le statut : SUCCESS.
+
+					 Détails :
+					 - Numéro du Build : ${env.BUILD_NUMBER}
+					 - Statut du Build : SUCCESS
+					 - Durée du Build : ${currentBuild.durationString}
+
+					 - Sortie de la console :
+					 ${consoleOutput}
+					 """
+			}
+		}
+		failure {
+			script {
+				// Récupérer la sortie de la console
+				def consoleOutput = sh(script: "curl -s -u 'admin:1139c5e85deeff7628c663560686c8caa1' http://192.168.162.222:8080/job/${env.JOB_NAME}/${env.BUILD_NUMBER}/consoleText", returnStdout: true).trim()
+				mail to: 'hedi.thameur@esprit.tn',
+					 subject: "Échec du Build: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+					 body: """
+					 Salut,
+					 Le build du projet '${env.JOB_NAME}' s'est terminé avec le statut : FAILURE.
+
+					 Détails :
+					 - Numéro du Build : ${env.BUILD_NUMBER}
 					 - Statut du Build : FAILURE
 					 - Durée du Build : ${currentBuild.durationString}
 
