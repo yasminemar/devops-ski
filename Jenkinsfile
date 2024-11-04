@@ -76,7 +76,7 @@ pipeline {
             }
         }
 	}
-	 /*post {
+	post {
 		failure {
 			script {
 				// Récupérer la sortie de la console
@@ -90,6 +90,7 @@ pipeline {
 					 Détails :
 					 - Numéro du Build : ${env.BUILD_NUMBER}
 					 - Statut du Build : FAILURE
+					 - Statut du Build : FAILURE
 					 - Durée du Build : ${currentBuild.durationString}
 
 					 - Sortie de la console :
@@ -97,29 +98,6 @@ pipeline {
 					 """
 			}
 		}
-	}*/
-	post {
-        success {
-            emailext (
-                subject: "SUCCESS: Jenkins Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
-                body: "Good news! Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' has succeeded.\n\nCheck details: ${env.BUILD_URL}",
-                to: "${RECIPIENTS}"
-            )
-        }
-        failure {
-            emailext (
-                subject: "FAILURE: Jenkins Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
-                body: "Attention! Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' has failed.\n\nCheck details: ${env.BUILD_URL}",
-                to: "${RECIPIENTS}"
-            )
-        }
-        unstable {
-            emailext (
-                subject: "UNSTABLE: Jenkins Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
-                body: "Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' is unstable.\n\nCheck details: ${env.BUILD_URL}",
-                to: "${RECIPIENTS}"
-            )
-        }
-    }
+	}
 	
 }
