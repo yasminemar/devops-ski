@@ -21,7 +21,7 @@ import java.util.Optional;
 
 
 @SpringBootTest
-public class SubscriptionServiceTest {
+class SubscriptionServiceTest {
 
     @Mock
     private ISubscriptionRepository subscriptionRepository;
@@ -38,20 +38,20 @@ public class SubscriptionServiceTest {
     }
 
     @Test
-    public void testAddSubscriptionAnnual() {
+     void testAddSubscriptionAnnual() {
         Subscription subscription = new Subscription();
         subscription.setTypeSub(TypeSubscription.ANNUAL);
         subscription.setStartDate(LocalDate.now());
 
         when(subscriptionRepository.save(any(Subscription.class))).thenReturn(subscription);
 
-        Subscription result = subscriptionService.addSubscription(subscription);
+
 
         assertEquals(subscription.getEndDate(), LocalDate.now().plusYears(1), "L'abonnement annuel n'est pas configuré correctement");
         verify(subscriptionRepository).save(subscription);
     }
     @Test
-    public void testUpdateSubscription() {
+     void testUpdateSubscription() {
         Subscription subscription = new Subscription();
         when(subscriptionRepository.save(subscription)).thenReturn(subscription);
 
@@ -61,7 +61,7 @@ public class SubscriptionServiceTest {
         verify(subscriptionRepository).save(subscription);
     }
     @Test
-    public void testRetrieveSubscriptionById() {
+     void testRetrieveSubscriptionById() {
         Subscription subscription = new Subscription();
         subscription.setNumSub(1L);
         when(subscriptionRepository.findById(1L)).thenReturn(Optional.of(subscription));
@@ -73,7 +73,7 @@ public class SubscriptionServiceTest {
     }
 
     @Test
-    public void testShowMonthlyRecurringRevenue() {
+    void testShowMonthlyRecurringRevenue() {
         when(subscriptionRepository.recurringRevenueByTypeSubEquals(TypeSubscription.MONTHLY)).thenReturn(1000f);
         when(subscriptionRepository.recurringRevenueByTypeSubEquals(TypeSubscription.SEMESTRIEL)).thenReturn(6000f);
         when(subscriptionRepository.recurringRevenueByTypeSubEquals(TypeSubscription.ANNUAL)).thenReturn(12000f);
@@ -88,7 +88,7 @@ public class SubscriptionServiceTest {
 
 
     @Test
-    public void testRetrieveSubscriptionsByDates() {
+     void testRetrieveSubscriptionsByDates() {
         LocalDate startDate = LocalDate.now().minusMonths(1);
         LocalDate endDate = LocalDate.now();
         List<Subscription> subscriptions = Arrays.asList(new Subscription());
@@ -101,7 +101,7 @@ public class SubscriptionServiceTest {
     }
 
 
-    
+
 
 
 
