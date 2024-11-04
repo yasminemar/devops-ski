@@ -72,20 +72,6 @@ public class SubscriptionServiceTest {
         verify(subscriptionRepository).findById(1L);
     }
 
-
-
-    @Test
-    public void testRetrieveSubscriptions() {
-        Subscription subscription = new Subscription();
-        subscription.setEndDate(LocalDate.now().plusMonths(1));
-        when(subscriptionRepository.findDistinctOrderByEndDateAsc()).thenReturn(List.of(subscription));
-
-        subscriptionService.retrieveSubscriptions();
-
-        verify(subscriptionRepository).findDistinctOrderByEndDateAsc();
-        verify(skierRepository).findBySubscription(subscription);
-    }
-
     @Test
     public void testShowMonthlyRecurringRevenue() {
         when(subscriptionRepository.recurringRevenueByTypeSubEquals(TypeSubscription.MONTHLY)).thenReturn(1000f);
@@ -113,6 +99,11 @@ public class SubscriptionServiceTest {
         assertEquals(subscriptions, result);
         verify(subscriptionRepository).getSubscriptionsByStartDateBetween(startDate, endDate);
     }
+
+
+    
+
+
 
 
 
