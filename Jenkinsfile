@@ -6,7 +6,7 @@ pipeline {
     stages {
         stage('Git') {
             steps {
-                git branch: 'instrcuteur-hedi', 
+                git branch: 'instrcuteur-hedii', 
                 url: 'https://github.com/yasminemar/devops-ski.git'
             }
         }
