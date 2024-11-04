@@ -19,6 +19,12 @@ pipeline {
                 sh "mvn compile"
             }
         }
+		stage('Run Tests') {
+            steps {
+                // Run tests using Maven
+                sh "mvn test"  
+            }
+        }
         stage('MVN SONARQUBE') {
             steps {
                 // Analyse SonarQube
