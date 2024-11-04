@@ -1,0 +1,33 @@
+version: '3.8'  # Utiliser une version appropriée de Docker Compose
+
+services:
+  mysqldb:
+    image: mysql:5.7
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root  # Définir le mot de passe root
+      MYSQL_DATABASE: db  # Nom de la base de données
+    ports:
+      - "3306:3306"  # Mapper le port MySQL local vers le conteneur
+    volumes:
+      - db:/var/lib/mysql  # Stockage persistant pour les données MySQL
+
+  app-tpfoyer:
+    depends_on:
+      - mysqldb  # L'application dépend du service MySQL
+    image: hedithameur/gestion-station-ski:latest  # Utiliser l'image que vous allez builder
+    restart: on-failure
+    ports:
+      - "8089:8089"  # Mapper le port 8089 de l'application
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3306/db?createDatabaseIfNotExist=true
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_JPA_SHOW_SQL: "true"
+      SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.MySQL5InnoDBDialect
+    stdin_open: true
+    tty: true
+
+volumes:
+  db:  # Volume pour persister les données de la base de données

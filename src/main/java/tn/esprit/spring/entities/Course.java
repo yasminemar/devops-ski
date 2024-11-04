@@ -35,4 +35,6 @@ public class Course implements Serializable {
 	@OneToMany(mappedBy= "course")
 	Set<Registration> registrations;
 
+    public void setName(String skiBasics) {
+    }
 }
