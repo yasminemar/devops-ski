@@ -37,19 +37,7 @@ class SubscriptionServiceTest {
         MockitoAnnotations.openMocks(this);
     }
 
-    @Test
-     void testAddSubscriptionAnnual() {
-        Subscription subscription = new Subscription();
-        subscription.setTypeSub(TypeSubscription.ANNUAL);
-        subscription.setStartDate(LocalDate.now());
 
-        when(subscriptionRepository.save(any(Subscription.class))).thenReturn(subscription);
-
-
-
-        assertEquals(subscription.getEndDate(), LocalDate.now().plusYears(1), "L'abonnement annuel n'est pas configuré correctement");
-        verify(subscriptionRepository).save(subscription);
-    }
     @Test
      void testUpdateSubscription() {
         Subscription subscription = new Subscription();
@@ -100,15 +88,58 @@ class SubscriptionServiceTest {
         verify(subscriptionRepository).getSubscriptionsByStartDateBetween(startDate, endDate);
     }
 
+    @Test
+    void testAddSubscriptionAnnual() {
+        // Créez un abonnement annuel
+        Subscription subscription = new Subscription();
+        subscription.setTypeSub(TypeSubscription.ANNUAL);
+        subscription.setStartDate(LocalDate.now());
+
+        // Simulez le comportement du repository
+        when(subscriptionRepository.save(any(Subscription.class))).thenReturn(subscription);
+
+        // Appelez la méthode addSubscription
+        Subscription savedSubscription = subscriptionService.addSubscription(subscription);
+
+        // Vérifiez que l'EndDate est correct
+        assertEquals(LocalDate.now().plusYears(1), savedSubscription.getEndDate(), "L'abonnement annuel n'est pas configuré correctement");
+        verify(subscriptionRepository).save(subscription);
+    }
 
 
+    @Test
+    void testAddSubscriptionSemestriel() {
+        // Créez un abonnement semestriel
+        Subscription subscription = new Subscription();
+        subscription.setTypeSub(TypeSubscription.SEMESTRIEL);
+        subscription.setStartDate(LocalDate.now());
 
+        // Simulez le comportement du repository
+        when(subscriptionRepository.save(any(Subscription.class))).thenReturn(subscription);
 
+        // Appelez la méthode addSubscription
+        Subscription savedSubscription = subscriptionService.addSubscription(subscription);
 
+        // Vérifiez que l'EndDate est correct
+        assertEquals(LocalDate.now().plusMonths(6), savedSubscription.getEndDate(), "L'abonnement semestriel n'est pas configuré correctement");
+        verify(subscriptionRepository).save(subscription);
+    }
 
+    @Test
+    void testAddSubscriptionMonthly() {
+        // Créez un abonnement mensuel
+        Subscription subscription = new Subscription();
+        subscription.setTypeSub(TypeSubscription.MONTHLY);
+        subscription.setStartDate(LocalDate.now());
 
+        // Simulez le comportement du repository
+        when(subscriptionRepository.save(any(Subscription.class))).thenReturn(subscription);
 
+        // Appelez la méthode addSubscription
+        Subscription savedSubscription = subscriptionService.addSubscription(subscription);
 
-
-
+        // Vérifiez que l'EndDate est correct
+        assertEquals(LocalDate.now().plusMonths(1), savedSubscription.getEndDate(), "L'abonnement mensuel n'est pas configuré correctement");
+        verify(subscriptionRepository).save(subscription);
+    }
 }
