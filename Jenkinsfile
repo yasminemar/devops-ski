@@ -80,12 +80,12 @@ pipeline {
 		failure {
 			script {
 				// Récupérer la sortie de la console
-				def consoleOutput = sh(script: "curl -s -u 'admin:1139c5e85deeff7628c663560686c8caa1' http://192.168.33.10:8080/job/${env.JOB_NAME}/${env.BUILD_NUMBER}/consoleText", returnStdout: true).trim()
+				def consoleOutput = sh(script: "curl -s -u 'admin:1139c5e85deeff7628c663560686c8caa1' http://192.168.162.222:8080/job/${env.JOB_NAME}/${env.BUILD_NUMBER}/consoleText", returnStdout: true).trim()
 				mail to: 'hedi.thameur@esprit.tn',
 					 subject: "Échec du Build: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
 					 body: """
-					 Bonjour,
-					 Le build du votre  projet '${env.JOB_NAME}' s'est terminé avec le statut : FAILURE.
+					 Salut,
+					 Le build du projet '${env.JOB_NAME}' s'est terminé avec le statut : FAILURE.
 
 					 Détails :
 					 - Numéro du Build : ${env.BUILD_NUMBER}
