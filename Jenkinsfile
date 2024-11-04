@@ -77,26 +77,26 @@ pipeline {
         }
 	}
 	 post {
-        failure {
-            script {
-                // Récupérer la sortie de la console
-                def consoleOutput = sh(script: "curl -s -u 'admin:119c985aeb2bcc3cb8409b0828b6d9c594' http://192.168.33.10:8080/job/${env.JOB_NAME}/${env.BUILD_NUMBER}/consoleText", returnStdout: true).trim()
-                mail to: 'slim.zouari@esprit.tn, oumayma.sahmim@esprit.tn',
-                     subject: "Échec du Build: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
-                     body: """
-                     Bonjour,
-                     Le build du votre  projet '${env.JOB_NAME}' s'est terminé avec le statut : FAILURE.
+		failure {
+			script {
+				// Récupérer la sortie de la console
+				def consoleOutput = sh(script: "curl -s -u 'admin:1139c5e85deeff7628c663560686c8caa1' http://192.168.33.10:8080/job/${env.JOB_NAME}/${env.BUILD_NUMBER}/consoleText", returnStdout: true).trim()
+				mail to: 'hedi.thameur@esprit.tn',
+					 subject: "Échec du Build: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+					 body: """
+					 Bonjour,
+					 Le build du votre  projet '${env.JOB_NAME}' s'est terminé avec le statut : FAILURE.
 
-                     Détails :
-                     - Numéro du Build : ${env.BUILD_NUMBER}
-                     - Statut du Build : FAILURE
-                     - Durée du Build : ${currentBuild.durationString}
+					 Détails :
+					 - Numéro du Build : ${env.BUILD_NUMBER}
+					 - Statut du Build : FAILURE
+					 - Durée du Build : ${currentBuild.durationString}
 
-                     - Sortie de la console :
-                     ${consoleOutput}
-                     """
-            }
-        }
-    }
+					 - Sortie de la console :
+					 ${consoleOutput}
+					 """
+			}
+		}
+	}
 	
 }
