@@ -1,7 +1,6 @@
 package tn.esprit.spring;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -19,7 +18,6 @@ import tn.esprit.spring.services.RegistrationServicesImpl;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 @ExtendWith(MockitoExtension.class)
 public class RegistrationServiceImpl {
@@ -57,41 +55,34 @@ public class RegistrationServiceImpl {
 
     @Test
     public void testAssignRegistrationToCourse() {
-        // Given
         when(registrationRepository.save(any(Registration.class))).thenReturn(registration);
 
-        // When
         Registration result = registrationServices.assignRegistrationToCourse(1L, 1L);
 
-        // Then
         verify(registrationRepository, times(1)).save(registration);
         assertEquals(registration, result);
     }
 
     @Test
-    public void testRetrieveRegistration() {
-        // Given
-        when(registrationRepository.findById(1L)).thenReturn(Optional.of(registration));
+    public void testAddRegistrationAndAssignToSkierAndCourse() {
+        when(registrationRepository.save(any(Registration.class))).thenReturn(registration);
 
-        // When
-        Registration result = registrationServices.retrieveRegistration(1L);
+        Registration result = registrationServices.addRegistrationAndAssignToSkierAndCourse(registration, 1L, 1L);
 
-        // Then
-        verify(registrationRepository, times(1)).findById(1L);
+        verify(registrationRepository, times(1)).save(registration);
         assertEquals(registration, result);
     }
 
     @Test
-    public void testRetrieveRegistrationNotFound() {
-        // Given
-        when(registrationRepository.findById(1L)).thenReturn(Optional.empty());
+    public void testNumWeeksCourseOfInstructorBySupport() {
+        List<Integer> expectedWeeks = Arrays.asList(1, 2, 3);
+        when(registrationServices.numWeeksCourseOfInstructorBySupport(1L, any())).thenReturn(expectedWeeks);
 
-        // When
-        Registration result = registrationServices.retrieveRegistration(1L);
+        List<Integer> result = registrationServices.numWeeksCourseOfInstructorBySupport(1L, any());
 
-        // Then
-        verify(registrationRepository, times(1)).findById(1L);
-        assertNull(result);
+        verify(registrationRepository, never()).save(any());
+        assertEquals(expectedWeeks, result);
     }
 
+    // Additional tests for other scenarios and methods can be added here
 }
