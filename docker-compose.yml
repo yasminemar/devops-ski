@@ -1,33 +1,36 @@
-version: '3.8'  # Utiliser une version appropriée de Docker Compose
-
+version: '3.8'
 services:
   mysqldb:
-    image: mysql:5.7
+    image: mysql:5.7  
     restart: unless-stopped
     environment:
-      MYSQL_ROOT_PASSWORD: root  # Définir le mot de passe root
-      MYSQL_DATABASE: db  # Nom de la base de données
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: stationSki
     ports:
-      - "3306:3306"  # Mapper le port MySQL local vers le conteneur
+      - "3306:3306"
     volumes:
-      - db:/var/lib/mysql  # Stockage persistant pour les données MySQL
+      - db_data:/var/lib/mysql
 
-  app-tpfoyer:
+  gestion-station-ski:
     depends_on:
-      - mysqldb  # L'application dépend du service MySQL
-    image: hamza261/gestion-station-ski:latest  # Utiliser l'image que vous allez builder
+      - mysqldb
+    image: yasminemarzouk66/marzoukyasmine-5ds6-g6:latest
     restart: on-failure
     ports:
-      - "8089:8089"  # Mapper le port 8089 de l'application
+      - "8089:8089"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3306/db?createDatabaseIfNotExist=true
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: root
-      SPRING_JPA_HIBERNATE_DDL_AUTO: update
-      SPRING_JPA_SHOW_SQL: "true"
-      SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.MySQL5InnoDBDialect
-    stdin_open: true
-    tty: true
+      SPRING_APPLICATION_JSON:
+        '{
+          "server.servlet.context-path": "/api",
+          "server.port": "8089",
+          "spring.datasource.url": "jdbc:mysql://mysqldb:3306/stationSki?createDatabaseIfNotExist=true",
+          "spring.datasource.username": "root",
+          "spring.datasource.password": "root",
+          "spring.jpa.hibernate.ddl-auto": "update",
+          "spring.jpa.show-sql": "true",
+          "logging.level.root": "info",
+          "logging.pattern.console": "%d{yyyy-MM-dd HH:mm:ss} - %-5level - %logger{45} - %msg %n"
+        }'
 
 volumes:
-  db:  # Volume pour persister les données de la base de données
+  db_data:
