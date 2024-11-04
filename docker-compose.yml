@@ -1,4 +1,4 @@
-#version: '3.8'  # Utiliser une version appropriée de Docker Compose
+version: "3.3"  # Utiliser une version appropriée de Docker Compose
 
 services:
   mysqldb:
@@ -12,7 +12,7 @@ services:
     volumes:
       - db:/var/lib/mysql  # Stockage persistant pour les données MySQL
 
-  app-tpfoyer:
+  app-station-ski:
     depends_on:
       - mysqldb  # L'application dépend du service MySQL
     image: hedithameur/gestion-station-ski:latest  # Utiliser l'image que vous allez builder
