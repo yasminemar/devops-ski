@@ -32,17 +32,7 @@ pipeline {
                                     }
                                 }
 
-//         stage('MVN SONARQUBE') {
-//             steps {
-//                 sh """
-//                 mvn sonar:sonar \
-//                     -Dsonar.projectKey=projet_station \
-//                     -Dsonar.host.url=http://192.168.33.10:9000 \
-//                     -Dsonar.login=sqa_deff4d127b4859ee7e96433d61cdd59b41d9c474\
-//                     -Dsonar.exclusions=target/**,.idea/**
-//                 """
-//             }
-//         }
+
 
 
 
