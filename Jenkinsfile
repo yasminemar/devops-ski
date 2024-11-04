@@ -1,5 +1,8 @@
 pipeline {
     agent any 
+	environment {
+        RECIPIENTS = 'hedi.thameur@esprit.tn' 
+    }
     stages {
         stage('Git') {
             steps {
@@ -72,5 +75,20 @@ pipeline {
             sh 'docker compose up -d'
             }
         }
-    }
+		stage('Mail') {  // New stage for email notifications
+			steps {
+				script {
+					if (currentBuild.result == null) {
+						currentBuild.result = 'SUCCESS'
+					}
+					emailext (
+						subject: "Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' - ${currentBuild.result}",
+						body: "Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' is ${currentBuild.result}.\n\nCheck details: ${env.BUILD_URL}",
+						to: "${RECIPIENTS}"
+					)
+				}
+			}
+		}
+	}
+	
 }
