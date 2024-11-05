@@ -18,15 +18,14 @@ pipeline {
                                 sh "mvn -Dtest=SubscriptionServiceTest test"
                             }
                         }
-                                stage('MVN SONARQUBE') {
+                                     stage('MVN SONARQUBE') {
                                     steps {
-                                        sh "mvn clean test jacoco:report"
+
                                         sh """
                                         mvn sonar:sonar \
                                             -Dsonar.projectKey=projet_station \
                                             -Dsonar.host.url=http://192.168.33.10:9000 \
                                             -Dsonar.login=sqa_deff4d127b4859ee7e96433d61cdd59b41d9c474 \
-                                            -Dsonar.jacoco.reportPaths=target/jacoco.exec \
                                             -Dsonar.coverage.excludes=**/target/**,**/.idea/**
                                         """
                                     }
