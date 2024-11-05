@@ -13,11 +13,11 @@ pipeline {
                 sh "mvn clean compile"
             }
         }
-//                         stage('Unit Test') {
-//                             steps {
-//                                 sh "mvn  test"
-//                             }
-//                         }
+                        stage('Unit Test') {
+                            steps {
+                                sh "mvn  test"
+                            }
+                        }
                                 stage('MVN SONARQUBE') {
                                     steps {
                                         sh "mvn clean test jacoco:report"
@@ -32,24 +32,7 @@ pipeline {
                                     }
                                 }
 
-        stage('API Testing') {
-                    steps {
-                        // Test adding a new subscription (POST request)
-                        sh """
-                        curl -X POST http://localhost:8089/api/subscription/add \
-                            -H 'Content-Type: application/json' \
-                            -d '{
-                                "startDate": "2024-11-01",
-                                "endDate": "2024-11-30",
-                                "price": 49.99,
-                                "typeSub": "MONTHLY"
-                            }'
-                        """
 
-                        // Test retrieving subscriptions by type (GET request)
-                        sh "curl -X GET http://localhost:8089/api/subscription/all/MONTHLY"
-                    }
-                }
 
 
 
@@ -61,15 +44,15 @@ pipeline {
         //         sh "mvn clean deploy -DskipTests"
         //     }
         // }
-       stage('Mvn Package') {
+        stage('Mvn Package') {
             steps {
 
-                 sh "mvn package -DskipTests" // Assurez-vous que le JAR est construit
-             }
-     }
+                sh "mvn package -DskipTests" // Assurez-vous que le JAR est construit
+            }
+        }
         stage('Building Images') {
             steps {
-                
+
                 sh "docker build -t slimzouari560/gestion-station-ski ."
             }
         }
@@ -90,14 +73,14 @@ pipeline {
         }
         stage('Docker Compose Up') {
             steps {
-               
+
                 sh 'docker compose down'
                 sh 'docker compose up -d'
             }
         }
     }
 
-   
+
     post {
         failure {
             script {
