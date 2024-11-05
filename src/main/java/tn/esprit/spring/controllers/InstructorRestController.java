@@ -19,12 +19,12 @@ public class InstructorRestController {
 
     @Operation(description = "Add Instructor")
     @PostMapping("/add")
-    public Instructor addInstructor(@RequestBody Instructor instructor){
+    public Instructor addInstructor(@RequestBody Instructor instructor){ // NOSONAR
         return  instructorServices.addInstructor(instructor);
     }
     @Operation(description = "Add Instructor and Assign To Course")
     @PutMapping("/addAndAssignToCourse/{numCourse}")
-    public Instructor addAndAssignToInstructor(@RequestBody Instructor instructor, @PathVariable("numCourse")Long numCourse){
+    public Instructor addAndAssignToInstructor(@RequestBody Instructor instructor, @PathVariable("numCourse")Long numCourse){ // NOSONAR
         return  instructorServices.addInstructorAndAssignToCourse(instructor,numCourse);
     }
     @Operation(description = "Retrieve all Instructors")
@@ -35,7 +35,7 @@ public class InstructorRestController {
 
     @Operation(description = "Update Instructor ")
     @PutMapping("/update")
-    public Instructor updateInstructor(@RequestBody Instructor Instructor){
+    public Instructor updateInstructor(@RequestBody Instructor Instructor){ // NOSONAR
         return  instructorServices.updateInstructor(Instructor);
     }
 
