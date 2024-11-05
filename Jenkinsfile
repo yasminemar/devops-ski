@@ -63,7 +63,7 @@ pipeline {
                 }
             }
         }
-        stage('Build Docker Image') {
+         stage('Build Docker Image') {
             steps {
                 script {
                     sh 'docker build -t brahim170/brahim-abdelbeki-5ds6-g6:latest .'
@@ -73,10 +73,17 @@ pipeline {
         stage('Deploy Image to Docker Hub') {
             steps {
                 script {
-                    sh 'docker push brahim170/brahim-abdelbeki-5ds6-g6:latest'
+                    withCredentials([usernamePassword(credentialsId: 'brahim170', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
+                        sh 'docker login -u $USERNAME -p $PASSWORD'
+                        sh 'docker push bbrahim170/brahim-abdelbeki-5ds6-g6:latest'
+                    }
                 }
             }
         }
-        
+    }
+    post {
+        always {
+            echo 'Pipeline execution is complete.'
+        }
     }
 }
