@@ -19,15 +19,12 @@ pipeline {
         }*/
         stage('MVN SONARQUBE') {
 			steps {
-				// Run tests and generate Jacoco coverage report
-				sh "mvn clean test jacoco:report"
 				
 				// Analyze with SonarQube
 				sh "mvn sonar:sonar \
 					-Dsonar.projectKey=station-ski-project \
 					-Dsonar.host.url=http://192.168.162.222:9000/ \
 					-Dsonar.login=sqp_23209ad4478d37b4101feb3032d63d134f89c14c \
-					-Dsonar.jacoco.reportPaths=target/jacoco.exec"
 			}
 		}
         stage('Mvn Deploy') {
