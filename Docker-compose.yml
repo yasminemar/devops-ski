@@ -15,7 +15,7 @@ services:
   gestion-station-ski:
     depends_on:
       - mysqldb
-    image: brahim170/gestion-station-ski:latest
+    image: brahim170/brahim-abdelbeki-5ds6-g6:latest
     restart: on-failure
     ports:
       - "8089:8089"
