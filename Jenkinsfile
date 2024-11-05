@@ -32,7 +32,24 @@ pipeline {
                                     }
                                 }
 
+        stage('API Testing') {
+                    steps {
+                        // Test adding a new subscription (POST request)
+                        sh """
+                        curl -X POST http://localhost:8089/api/subscription/add \
+                            -H 'Content-Type: application/json' \
+                            -d '{
+                                "startDate": "2024-11-01",
+                                "endDate": "2024-11-30",
+                                "price": 49.99,
+                                "typeSub": "MONTHLY"
+                            }'
+                        """
 
+                        // Test retrieving subscriptions by type (GET request)
+                        sh "curl -X GET http://localhost:8089/api/subscription/all/MONTHLY"
+                    }
+                }
 
 
 
