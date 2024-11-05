@@ -74,11 +74,11 @@ pipeline {
             }
         }
 
-                stage('API Testing') {
-                    steps {
-                        sh "curl -X GET http://localhost:8089/api/subscription/all/MONTHLY"
-                    }
-                }
+stage('API Testing') {
+    steps {
+        sh "curl -X GET http://localhost:8089/api/subscription/all/MONTHLY || exit 1"
+    }
+}
     }
 
 
