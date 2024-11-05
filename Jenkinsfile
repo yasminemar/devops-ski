@@ -56,7 +56,7 @@ pipeline {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
                 sh '''
-                docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+                docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD --password-stdin
                 docker push hedithameur/gestion-station-ski:latest
                 '''
                 }
