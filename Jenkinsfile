@@ -17,7 +17,7 @@ pipeline {
                 sh "mvn test" 
             }
         }*/
-        /*stage('MVN SONARQUBE') {
+        stage('MVN SONARQUBE') {
 			steps {
 				// Run tests and generate Jacoco coverage report
 				sh "mvn clean test jacoco:report"
@@ -29,7 +29,7 @@ pipeline {
 					-Dsonar.login=sqp_23209ad4478d37b4101feb3032d63d134f89c14c \
 					-Dsonar.jacoco.reportPaths=target/jacoco.exec"
 			}
-		}*/
+		}
         stage('Mvn Deploy') {
             steps {
                 sh "mvn clean deploy -DskipTests"
