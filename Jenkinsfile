@@ -13,11 +13,11 @@ pipeline {
                 sh "mvn clean compile"
             }
         }
-                        stage('Unit Test') {
-                            steps {
-                                sh "mvn  test"
-                            }
-                        }
+//                         stage('Unit Test') {
+//                             steps {
+//                                 sh "mvn  test"
+//                             }
+//                         }
                                 stage('MVN SONARQUBE') {
                                     steps {
                                         sh "mvn clean test jacoco:report"
@@ -61,12 +61,12 @@ pipeline {
         //         sh "mvn clean deploy -DskipTests"
         //     }
         // }
-//         stage('Mvn Package') {
-//             steps {
-//
-//                 sh "mvn package -DskipTests" // Assurez-vous que le JAR est construit
-//             }
-//         }
+       stage('Mvn Package') {
+            steps {
+
+                 sh "mvn package -DskipTests" // Assurez-vous que le JAR est construit
+             }
+     }
         stage('Building Images') {
             steps {
                 
