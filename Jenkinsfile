@@ -61,12 +61,12 @@ pipeline {
         //         sh "mvn clean deploy -DskipTests"
         //     }
         // }
-        stage('Mvn Package') {
-            steps {
-              
-                sh "mvn package -DskipTests" // Assurez-vous que le JAR est construit
-            }
-        }
+//         stage('Mvn Package') {
+//             steps {
+//
+//                 sh "mvn package -DskipTests" // Assurez-vous que le JAR est construit
+//             }
+//         }
         stage('Building Images') {
             steps {
                 
