@@ -37,12 +37,12 @@ pipeline {
 
 
         // Uncomment this stage if you need to deploy
-        // stage('Mvn Deploy') {
-        //     steps {
-        //         // Déploiement dans Nexus en sautant les tests
-        //         sh "mvn clean deploy -DskipTests"
-        //     }
-        // }
+         stage('Mvn Deploy') {
+             steps {
+                // Déploiement dans Nexus en sautant les tests
+                sh "mvn clean deploy -DskipTests"
+            }
+         }
         stage('Mvn Package') {
             steps {
 
