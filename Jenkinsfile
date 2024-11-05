@@ -7,49 +7,41 @@ pipeline {
                 url: 'https://github.com/yasminemar/devops-ski.git'
             }
         }
-        stage('Mvn Clean') {
+        stage('Mvn Clean and compile') {
             steps {
-                // Nettoyage du projet avec Maven
-                sh "mvn clean"
+                sh "mvn clean compile"
             }
         }
-        stage('Mvn Compile') {
+		stage('Unit Tests') {
             steps {
-                // Compilation du projet avec Maven
-                sh "mvn compile"
-            }
-        }
-		stage('Run Tests') {
-            steps {
-                // Run tests using Maven
-                //sh "mvn test"  
-				sh 'mvn test -Dmaven.test.failure.ignore=true'
+                sh "mvn test" 
             }
         }
         stage('MVN SONARQUBE') {
-            steps {
-                // Analyse SonarQube
-                sh "mvn sonar:sonar \
-                    -Dsonar.projectKey=station-ski-project \
-                    -Dsonar.host.url=http://192.168.162.222:9000/ \
-                    -Dsonar.login=sqp_23209ad4478d37b4101feb3032d63d134f89c14c"
-            }
-        }
+			steps {
+				// Run tests and generate Jacoco coverage report
+				sh "mvn clean test jacoco:report"
+				
+				// Analyze with SonarQube
+				sh "mvn sonar:sonar \
+					-Dsonar.projectKey=station-ski-project \
+					-Dsonar.host.url=http://192.168.162.222:9000/ \
+					-Dsonar.login=sqp_23209ad4478d37b4101feb3032d63d134f89c14c \
+					-Dsonar.jacoco.reportPaths=target/jacoco.exec"
+			}
+		}
         stage('Mvn Deploy') {
             steps {
-            // Déploiement dans Nexus en sautant les tests
                 sh "mvn clean deploy -DskipTests"
             }
         }
         stage('Mvn Package') {
             steps {
-                // Création du package JAR avec Maven
                 sh "mvn package -DskipTests" // Assurez-vous que le JAR est construit
             }
         }
         stage('building images') {
             steps {
-                // Construire l'image Docker
                 sh "mvn clean package -DskipTests"
      
                 sh "docker build -t hedithameur/gestion-station-ski:latest ."
@@ -72,37 +64,12 @@ pipeline {
         }
         stage('Docker Compose Up') {
             steps {
-            // Arrêter et supprimer les conteneurs existants
             sh 'docker compose down'
         
-            // Lancer le fichier docker-compose.yml
             sh 'docker compose up -d'
             }
         }
 	}
-	/*post {
-		failure {
-			script {
-				// Récupérer la sortie de la console
-				def consoleOutput = sh(script: "curl -s -u 'admin:1139c5e85deeff7628c663560686c8caa1' http://192.168.162.222:8080/job/${env.JOB_NAME}/${env.BUILD_NUMBER}/consoleText", returnStdout: true).trim()
-				mail to: 'hedi.thameur@esprit.tn',
-					 subject: "Échec du Build: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
-					 body: """
-					 Salut,
-					 Le build du projet '${env.JOB_NAME}' s'est terminé avec le statut : FAILURE.
-
-					 Détails :
-					 - Numéro du Build : ${env.BUILD_NUMBER}
-					 - Statut du Build : FAILURE
-					 - Statut du Build : FAILURE
-					 - Durée du Build : ${currentBuild.durationString}
-
-					 - Sortie de la console :
-					 ${consoleOutput}
-					 """
-			}
-		}
-	}*/
 	post {
 		success {
 			script {
