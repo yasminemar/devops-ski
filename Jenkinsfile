@@ -52,16 +52,17 @@ pipeline {
                 sh 'docker images'
             }   
         }
-        stage('Push to DockerHub') {
-            steps {
-                withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
-                sh '''
-                docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD --password-stdin
-                docker push hedithameur/gestion-station-ski:latest
-                '''
-                }
-            }
-        }
+		stage('Push to DockerHub') {
+			steps {
+				withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+					sh '''
+					echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
+					docker push hedithameur/gestion-station-ski:latest
+					'''
+				}
+			}
+		}
+
         stage('Docker Compose Up') {
             steps {
             sh 'docker compose down'
