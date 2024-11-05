@@ -73,6 +73,22 @@ pipeline {
                 sh 'docker compose up -d'
             }
         }
+
+                stage('API Testing') {
+                    steps {
+                        sh """
+                        curl -X POST http://localhost:8089/api/subscription/add \
+                            -H 'Content-Type: application/json' \
+                            -d '{
+                                "startDate": "2024-11-01",
+                                "endDate": "2024-11-30",
+                                "price": 49.99,
+                                "typeSub": "MONTHLY"
+                            }'
+                        """
+                        sh "curl -X GET http://localhost:8089/api/subscription/all/MONTHLY"
+                    }
+                }
     }
 
 
