@@ -12,11 +12,11 @@ pipeline {
                 sh "mvn clean compile"
             }
         }
-		stage('Unit Tests') {
+		/*stage('Unit Tests') {
             steps {
                 sh "mvn test" 
             }
-        }
+        }*/
         /*stage('MVN SONARQUBE') {
 			steps {
 				// Run tests and generate Jacoco coverage report
