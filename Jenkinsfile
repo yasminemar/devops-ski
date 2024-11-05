@@ -16,7 +16,7 @@ pipeline {
 
                                      stage('MVN SONARQUBE') {
                                     steps {
-                                        sh "mvn clean test jacoco:report"
+
                                         sh """
                                         mvn sonar:sonar \
                                             -Dsonar.projectKey=projet_station \
