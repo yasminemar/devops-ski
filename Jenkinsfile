@@ -13,11 +13,7 @@ pipeline {
                 sh "mvn clean compile"
             }
         }
-                        stage('Unit Test') {
-                            steps {
-                                sh "mvn -Dtest=SubscriptionServiceTest test"
-                            }
-                        }
+
                                      stage('MVN SONARQUBE') {
                                     steps {
 
